@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get a Quote: Custom Church Shirts & Merch | Church Merch</title>
+<meta name="description" content="Request a quote for custom church shirts, hoodies, hats, welcome boxes and promo products. Church Merch sends a mockup and a real price fast.">
+<link rel="canonical" href="https://churchmerch.store/quote">
+<meta property="og:title" content="Get a Quote: Custom Church Shirts & Merch | Church Merch">
+<meta property="og:description" content="Request a quote for custom church shirts, hoodies, hats, welcome boxes and promo products. Church Merch sends a mockup and a real price fast.">
+<meta property="og:url" content="https://churchmerch.store/quote">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://churchmerch.store/#org", "name": "Church Merch", "url": "https://churchmerch.store", "logo": "https://churchmerch.store/logo.png", "description": "Custom shirts, hoodies, swag boxes and promo products for churches and ministries. full color printing, screen printing and embroidery from our Durham, NC shop, shipping nationwide.", "address": {"@type": "PostalAddress", "addressLocality": "Durham", "addressRegion": "NC", "addressCountry": "US"}, "areaServed": "United States", "knowsAbout": ["church shirts", "church merchandise", "full color printing", "screen printing", "embroidery", "youth group shirts", "mission trip shirts", "church welcome boxes", "promotional products"], "sameAs": ["https://www.instagram.com/churchmrch", "https://www.facebook.com/churchmrch"], "email": "contact@churchmerch.store", "telephone": "(919) 864-1603"}</script>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="index.html" aria-label="Church Merch home"><svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+<defs><linearGradient id="gh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB600"/><stop offset="1" stop-color="#FFDB00"/></linearGradient></defs>
+<rect width="48" height="48" rx="13" fill="url(#gh)"/>
+<text x="24" y="31" text-anchor="middle" font-family="Unbounded, sans-serif" font-weight="700" font-size="17" fill="#141414">CM</text></svg><span class="brand-name">Church Merch</span></a>
+<button class="nav-toggle" aria-label="Menu" aria-expanded="false" onclick="var n=document.querySelector('.nav');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))">&#9776;</button>
+<nav class="nav"><a href="order.html">Design yours</a><a href="index.html#make">What we make</a><a href="boxes.html">Welcome boxes</a><a href="work.html">Our work</a><a href="faq.html">FAQ</a><a href="/promo">Promo store</a><a class="btn btn-ink" href="quote.html">Get a quote</a></nav>
+</div></header>
+<main>
+
+<section class="page-hero"><div class="wrap">
+  <div class="eyebrow">Get a quote</div>
+  <h1>Let's make your merch.</h1>
+  <p class="lede">Tell us a little about what you need. We'll send back a mockup and a real price the same day.</p>
+</div></section>
+<section class="section" style="padding-top:20px"><div class="wrap" style="max-width:860px">
+  <form class="form" id="quote-form">
+    <div class="form-grid">
+      <div class="field"><label for="name">Your name</label><input id="name" name="name" required autocomplete="name"></div>
+      <div class="field"><label for="church">Church or ministry</label><input id="church" name="church" required></div>
+      <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="phone">Phone (optional)</label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
+      <div class="field full"><span class="label">What do you need?</span><div class="chips"><label class="chip"><input type="checkbox" name="needs" value="T-shirts"><span>T-shirts</span></label><label class="chip"><input type="checkbox" name="needs" value="Hoodies / crewnecks"><span>Hoodies / crewnecks</span></label><label class="chip"><input type="checkbox" name="needs" value="Hats"><span>Hats</span></label><label class="chip"><input type="checkbox" name="needs" value="Polos / staff gear"><span>Polos / staff gear</span></label><label class="chip"><input type="checkbox" name="needs" value="Welcome / swag boxes"><span>Welcome / swag boxes</span></label><label class="chip"><input type="checkbox" name="needs" value="Promo products"><span>Promo products</span></label><label class="chip"><input type="checkbox" name="needs" value="Something else"><span>Something else</span></label></div></div>
+      <div class="field"><label for="qty">About how many?</label><select id="qty" name="qty"><option>Under 25</option><option>25–50</option><option>50–100</option><option>100–250</option><option>250+</option><option>Not sure yet</option></select></div>
+      <div class="field"><label for="date">Need it by</label><input id="date" name="date" type="date"></div>
+      <div class="field full"><label for="details">Tell us about it</label><textarea id="details" name="details" placeholder="Event, design ideas, colors, anything helpful. Have a logo? Mention it and we'll grab it from you by email."></textarea></div>
+    </div>
+    <div class="btn-row"><button class="btn btn-gold" type="submit">Send my request &rarr;</button></div>
+    <p class="form-note">We'll only use your info to reply about your order.</p>
+  </form>
+  <div class="form thanks" id="thanks"><h2>Got it. Thank you!</h2><p class="lede" style="margin:0 auto">We'll be in touch soon with next steps. Keep an eye on your inbox.</p></div>
+</div></section>
+<script>
+/* DRAFT: on the live site this posts to the form handler (Jotform or a Cloudflare function). */
+document.getElementById('quote-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  this.style.display = 'none';
+  document.getElementById('thanks').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+
+</main>
+<footer class="site-footer"><div class="wrap">
+<div class="cols">
+<div><a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+<defs><linearGradient id="gf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB600"/><stop offset="1" stop-color="#FFDB00"/></linearGradient></defs>
+<rect width="48" height="48" rx="13" fill="url(#gf)"/>
+<text x="24" y="31" text-anchor="middle" font-family="Unbounded, sans-serif" font-weight="700" font-size="17" fill="#141414">CM</text></svg><span class="brand-name">Church Merch</span></a>
+<p style="margin-top:16px;max-width:26em">Custom shirts, hoodies, swag boxes and promo products for churches and ministries. Printed in Durham, NC. Shipped anywhere in the US.</p></div>
+<div><h4>Explore</h4><a href="index.html#make">What we make</a><a href="work.html">Our work</a><a href="boxes.html">Welcome boxes</a><a href="faq.html">FAQ</a><a href="/promo">Promo store</a><a href="quote.html">Get a quote</a></div>
+<div><h4>Say hey</h4><a href="mailto:contact@churchmerch.store">contact@churchmerch.store</a><a href="tel:+19198641603">(919) 864-1603</a><a href="https://www.instagram.com/churchmrch">Instagram</a><a href="https://www.facebook.com/churchmrch">Facebook</a><span>Durham, North Carolina</span></div>
+</div>
+<div class="legal"><span>&copy; 2026 Church Merch. A Moody Capital LLC company.</span><span>Made for the Church.</span></div>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,913 @@
+
+<!-- ============================================================
+  Church Merch — Welcome Box order app
+  Paste this whole file into a Squarespace Code Block (HTML mode).
+  Orders are submitted to your Jotform back-end form.
+  ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:wght@400;500;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+
+<div id="cm-order">
+<style>
+#cm-order{--gold:#FFB600;--halo:#FFDB00;--ink:#141414;--bone:#FAF7F0;--stone:#8A8479;--line:#E6E0D4;--soft:#F2EDE3;--good:#2E7D4F;--bad:#B3261E;
+  font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);background:var(--bone);max-width:1080px;margin:0 auto;padding:24px 16px 120px;box-sizing:border-box;line-height:1.45;-webkit-font-smoothing:antialiased}
+#cm-order *{box-sizing:border-box}
+#cm-order h2,#cm-order h3,#cm-order .cmo-display{font-family:'Unbounded',system-ui,sans-serif;letter-spacing:-.01em;margin:0}
+#cm-order h2{font-size:clamp(22px,4vw,32px);font-weight:700;line-height:1.15}
+#cm-order h3{font-size:17px;font-weight:700}
+#cm-order p{margin:0}
+#cm-order button{font-family:inherit;cursor:pointer}
+#cm-order input,#cm-order textarea,#cm-order select{font-family:inherit;font-size:16px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;width:100%;outline:none;transition:border-color .15s}
+#cm-order input:focus,#cm-order textarea:focus,#cm-order select:focus{border-color:var(--ink)}
+#cm-order textarea{min-height:96px;resize:vertical}
+#cm-order label.cmo-field{display:block;margin-bottom:16px}
+#cm-order label.cmo-field>span{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
+#cm-order .cmo-hint{font-size:13px;color:var(--stone);margin-top:6px}
+#cm-order .cmo-err{font-size:13px;color:var(--bad);margin-top:6px;display:none}
+#cm-order .cmo-err.show{display:block}
+
+/* header + progress */
+#cm-order .cmo-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+#cm-order .cmo-kicker{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--stone)}
+#cm-order .cmo-progress{height:6px;background:var(--soft);border-radius:99px;overflow:hidden;margin:10px 0 28px}
+#cm-order .cmo-progress>i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .3s}
+
+#cm-order .cmo-layout{display:grid;grid-template-columns:1fr;gap:24px}
+@media(min-width:900px){#cm-order .cmo-layout{grid-template-columns:1fr 300px}}
+#cm-order .cmo-step{display:none}
+#cm-order .cmo-step.on{display:block;animation:cmoIn .25s ease}
+@keyframes cmoIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#cm-order .cmo-lead{color:var(--stone);margin:8px 0 22px;font-size:16px}
+
+/* box cards */
+#cm-order .cmo-cards{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:700px){#cm-order .cmo-cards{grid-template-columns:1fr 1.12fr 1fr;align-items:center}}
+#cm-order .cmo-card{position:relative;text-align:left;background:#fff;border:2px solid var(--line);border-radius:16px;padding:22px 18px;transition:border-color .15s,transform .15s,box-shadow .15s;width:100%}
+#cm-order .cmo-card:hover{border-color:var(--stone)}
+#cm-order .cmo-card.sel{border-color:var(--ink);box-shadow:0 0 0 3px var(--ink) inset}
+#cm-order .cmo-card.featured{border-color:var(--gold);padding:30px 20px}
+#cm-order .cmo-card.featured.sel{box-shadow:0 0 0 3px var(--gold) inset;border-color:var(--gold)}
+@media(min-width:700px){#cm-order .cmo-card.featured{transform:scale(1.03)}}
+#cm-order .cmo-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--ink);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:99px;white-space:nowrap}
+#cm-order .cmo-card .cmo-name{font-family:'Unbounded',sans-serif;font-weight:700;font-size:18px}
+#cm-order .cmo-price{font-family:'Unbounded',sans-serif;font-size:28px;font-weight:700;margin:10px 0 2px}
+#cm-order .cmo-price small{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--stone)}
+#cm-order .cmo-from{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--stone);margin-top:12px}
+#cm-order .cmo-from+.cmo-price{margin-top:2px}
+#cm-order .cmo-addon{display:flex;align-items:center;gap:14px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:22px;cursor:pointer;transition:border-color .15s}
+#cm-order .cmo-addon:hover{border-color:var(--stone)}
+#cm-order .cmo-addon input{position:absolute;opacity:0;width:1px;height:1px}
+#cm-order .cmo-addon-box{width:24px;height:24px;border:2px solid var(--stone);border-radius:7px;flex:none;display:grid;place-items:center;transition:all .15s}
+#cm-order .cmo-addon input:checked~.cmo-addon-box{background:var(--ink);border-color:var(--ink)}
+#cm-order .cmo-addon input:checked~.cmo-addon-box:after{content:"";width:6px;height:11px;border:solid var(--gold);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+#cm-order .cmo-addon:has(input:checked){border-color:var(--ink)}
+#cm-order .cmo-addon input:focus-visible~.cmo-addon-box{outline:2px solid var(--gold);outline-offset:2px}
+#cm-order .cmo-addon-text{flex:1;min-width:0}
+#cm-order .cmo-addon-text b{display:block;font-size:15px}
+#cm-order .cmo-addon-text small{display:block;color:var(--stone);font-size:13px;margin-top:2px}
+#cm-order .cmo-addon-price{text-align:right;font-family:'Unbounded',sans-serif;font-weight:700;font-size:18px;white-space:nowrap}
+#cm-order .cmo-addon-price small{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--stone)}
+#cm-order .cmo-addon-price em{display:block;font-style:normal;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:var(--good)}
+#cm-order .cmo-basic{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;text-align:left;background:#fff;border:2px dashed var(--line);border-radius:14px;padding:16px 18px;margin:26px 0 0;transition:border-color .15s}
+#cm-order .cmo-basic:hover{border-color:var(--stone)}
+#cm-order .cmo-basic.sel{border-style:solid;border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset}
+#cm-order .cmo-basic-l b{display:block;font-family:'Unbounded',sans-serif;font-size:16px;margin:2px 0}
+#cm-order .cmo-basic-l small{display:block;color:var(--stone);font-size:13px}
+#cm-order .cmo-basic-r{text-align:right;white-space:nowrap}
+#cm-order .cmo-basic-r b{font-family:'Unbounded',sans-serif;font-size:22px}
+#cm-order .cmo-basic-r small{display:block;color:var(--stone);font-size:12px}
+#cm-order #cmo-addons .cmo-addon{margin-top:12px}
+#cm-order #cmo-addons{margin:0}
+#cm-order .cmo-addons-h{font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone);margin:0 0 2px}
+#cm-order .cmo-upsell{font-size:13px;font-weight:700;background:var(--soft);border-radius:8px;padding:6px 10px;margin:10px 0 0;display:inline-block}
+#cm-order .cmo-card ul{list-style:none;padding:0;margin:14px 0 0;font-size:14px}
+#cm-order .cmo-card li{padding:5px 0 5px 22px;position:relative}
+#cm-order .cmo-card li:before{content:"";position:absolute;left:2px;top:11px;width:10px;height:10px;border-radius:3px;background:var(--gold)}
+#cm-order .cmo-card li.add{font-weight:700}
+#cm-order .cmo-linkbtn{background:none;border:0;padding:0;color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:3px;font-size:15px}
+#cm-order .cmo-custom-link{text-align:center;margin-top:22px;color:var(--stone);font-size:15px}
+
+/* options (radio tiles) */
+#cm-order .cmo-tiles{display:grid;gap:12px}
+@media(min-width:700px){#cm-order .cmo-tiles.three{grid-template-columns:repeat(3,1fr)}#cm-order .cmo-tiles.two{grid-template-columns:repeat(2,1fr)}#cm-order .cmo-tiles.four{grid-template-columns:repeat(4,1fr)}}
+#cm-order .cmo-tile{text-align:left;background:#fff;border:2px solid var(--line);border-radius:14px;padding:16px;width:100%;transition:border-color .15s}
+#cm-order .cmo-tile:hover{border-color:var(--stone)}
+#cm-order .cmo-tile.sel{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset}
+#cm-order .cmo-tile b{display:block;font-family:'Unbounded',sans-serif;font-size:16px;margin-bottom:4px}
+#cm-order .cmo-tile span{font-size:14px;color:var(--stone);display:block}
+#cm-order .cmo-tile em{font-style:normal;display:inline-block;margin-top:10px;font-weight:700;font-size:13px;background:var(--soft);border-radius:6px;padding:3px 8px}
+#cm-order .cmo-group{margin-bottom:22px}
+#cm-order .cmo-group>p{font-weight:700;margin-bottom:10px}
+
+/* quantity */
+#cm-order .cmo-qty{display:flex;align-items:center;gap:10px;max-width:340px}
+#cm-order .cmo-qty button{width:52px;height:52px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-size:22px;font-weight:700;flex:none}
+#cm-order .cmo-qty input{text-align:center;font-family:'Unbounded',sans-serif;font-size:24px;font-weight:700;height:52px}
+#cm-order .cmo-chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
+#cm-order .cmo-chip{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-size:14px;font-weight:700}
+#cm-order .cmo-chip.sel{background:var(--ink);color:var(--bone);border-color:var(--ink)}
+#cm-order .cmo-nudge{background:var(--halo);border-radius:12px;padding:12px 14px;font-weight:700;font-size:14px;display:none;margin-top:4px}
+#cm-order .cmo-nudge.show{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#cm-order .cmo-nudge button{background:var(--ink);color:var(--bone);border:0;border-radius:8px;padding:8px 12px;font-weight:700;font-size:13px}
+#cm-order .cmo-breaks{width:100%;border-collapse:collapse;margin-top:22px;font-size:14px;background:#fff;border-radius:12px;overflow:hidden}
+#cm-order .cmo-breaks th,#cm-order .cmo-breaks td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--soft)}
+#cm-order .cmo-breaks th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--stone)}
+#cm-order .cmo-breaks tr.cur td{background:var(--soft);font-weight:700}
+
+/* sizes */
+#cm-order .cmo-sizes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:520px}
+@media(min-width:600px){#cm-order .cmo-sizes{grid-template-columns:repeat(6,1fr)}}
+#cm-order .cmo-size{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+#cm-order .cmo-size b{display:block;font-size:13px;margin-bottom:6px}
+#cm-order .cmo-size input{text-align:center;padding:8px 4px;font-weight:700}
+#cm-order .cmo-count{margin:16px 0 8px;font-weight:700}
+#cm-order .cmo-count.ok{color:var(--good)}
+#cm-order .cmo-count.no{color:var(--bad)}
+
+/* brand + card preview */
+#cm-order .cmo-two{display:grid;gap:20px}
+@media(min-width:760px){#cm-order .cmo-two{grid-template-columns:1fr 1fr}}
+#cm-order .cmo-drop{display:flex;align-items:center;gap:14px;background:#fff;border:2px dashed var(--line);border-radius:14px;padding:16px;cursor:pointer}
+#cm-order .cmo-drop:hover{border-color:var(--stone)}
+#cm-order .cmo-drop img{width:64px;height:64px;object-fit:contain;border-radius:8px;background:var(--soft);display:none}
+#cm-order .cmo-drop input{display:none}
+#cm-order .cmo-cardprev{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;min-height:260px;display:flex;flex-direction:column;gap:14px;box-shadow:0 10px 30px rgba(20,20,20,.06)}
+#cm-order .cmo-cardprev.letter{min-height:340px}
+#cm-order .cmo-cardprev.serif .msg,#cm-order .cmo-cardprev.serif .greet{font-family:Georgia,'Times New Roman',serif}
+#cm-order .cmo-cardprev.script .msg,#cm-order .cmo-cardprev.script .greet,#cm-order .cmo-cardprev.script .sig{font-family:'Caveat','Segoe Script','Bradley Hand',cursive;font-size:21px;line-height:1.35}
+#cm-order .cmo-cardprev.modern{border-top:8px solid var(--gold)}
+#cm-order .cmo-cardprev .greet{font-weight:700}
+#cm-order .cmo-cardprev .gift{align-self:flex-start;background:var(--bone);border:1px dashed var(--line);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700}
+#cm-order .cmo-cardprev .logo{height:48px;display:flex;align-items:center}
+#cm-order .cmo-cardprev .logo img{max-height:48px;max-width:160px;object-fit:contain}
+#cm-order .cmo-cardprev .logo span{font-family:'Unbounded',sans-serif;font-weight:700;font-size:15px}
+#cm-order .cmo-cardprev .msg{font-size:15px;white-space:pre-wrap;flex:1}
+#cm-order .cmo-cardprev .sig{font-weight:700;font-size:14px}
+#cm-order .cmo-cardprev .qr{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--stone)}
+#cm-order .cmo-cardprev .qr i{width:40px;height:40px;border-radius:6px;background:repeating-linear-gradient(45deg,var(--ink) 0 4px,#fff 4px 8px);flex:none}
+
+/* summary */
+#cm-order .cmo-summary{background:var(--ink);color:var(--bone);border-radius:18px;padding:22px;position:sticky;top:20px;align-self:start}
+#cm-order .cmo-top .cmo-kicker:last-child{white-space:nowrap}
+#cm-order .cmo-summary h3{color:var(--bone);font-size:15px;margin-bottom:14px}
+#cm-order .cmo-summary .row{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:6px 0;border-bottom:1px solid rgba(250,247,240,.12)}
+#cm-order .cmo-summary .row span:first-child{color:#C9C3B6}
+#cm-order .cmo-summary .total{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px}
+#cm-order .cmo-summary .total b{font-family:'Unbounded',sans-serif;font-size:26px;color:var(--gold)}
+#cm-order .cmo-summary .fine{font-size:12px;color:#C9C3B6;margin-top:10px}
+@media(max-width:899px){#cm-order .cmo-summary{display:none}}
+
+/* nav */
+#cm-order .cmo-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:28px}
+#cm-order .cmo-btn{border:0;border-radius:12px;padding:15px 24px;font-weight:700;font-size:16px;background:var(--gold);color:var(--ink);transition:transform .1s,background .15s}
+#cm-order .cmo-btn:hover{background:var(--halo)}
+#cm-order .cmo-btn:active{transform:scale(.98)}
+#cm-order .cmo-btn[disabled]{opacity:.45;cursor:not-allowed}
+#cm-order .cmo-back{background:none;border:0;font-weight:700;color:var(--stone);font-size:15px;padding:10px 0}
+#cm-order .cmo-back[hidden]{display:none}
+
+/* mobile bottom bar */
+#cm-order .cmo-bar{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--bone);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:50}
+#cm-order .cmo-bar small{display:block;color:#C9C3B6;font-size:12px}
+#cm-order .cmo-bar b{font-family:'Unbounded',sans-serif;color:var(--gold);font-size:20px}
+#cm-order .cmo-bar{padding-bottom:calc(12px + env(safe-area-inset-bottom));transition:transform .25s ease}
+#cm-order .cmo-bar.off{transform:translateY(120%)}
+#cm-order .cmo-bar .cmo-btn{min-height:48px}
+@media(min-width:900px){#cm-order .cmo-bar{display:none}}
+
+/* ---------- phones & tablets ---------- */
+@media(max-width:899px){
+  #cm-order{padding-bottom:calc(100px + env(safe-area-inset-bottom))}
+  #cm-order #cmo-next{display:none}                 /* the sticky bar's button does this job */
+  #cm-order .cmo-nav{margin-top:20px}
+  #cm-order .cmo-back{min-height:44px}
+}
+@media(max-width:699px){
+  #cm-order .cmo-cards{margin-top:22px}
+}
+@media(max-width:600px){
+  #cm-order .cmo-basic{flex-direction:column;align-items:flex-start;gap:10px}
+  #cm-order .cmo-basic-r{text-align:left;white-space:normal}
+  #cm-order .cmo-basic-r small{display:inline;margin-left:6px}
+  #cm-order .cmo-addon{flex-wrap:wrap}
+  #cm-order .cmo-addon-text{flex:1 1 calc(100% - 50px)}
+  #cm-order .cmo-addon-price{flex-basis:100%;text-align:left;padding-left:48px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  #cm-order .cmo-addon-price em{display:inline}
+  #cm-order .cmo-tiles.four,#cm-order [data-pick="giftbrand"]{grid-template-columns:1fr 1fr}
+  #cm-order .cmo-chip{min-height:44px;padding:10px 16px}
+  #cm-order .cmo-linkbtn{padding:12px 4px;display:inline-block}
+  #cm-order .cmo-size input{min-height:44px}
+  #cm-order h2{font-size:26px}
+}
+
+/* review + done */
+#cm-order .cmo-review{background:#fff;border-radius:16px;border:1px solid var(--line);overflow:hidden}
+#cm-order .cmo-review .r{display:flex;justify-content:space-between;gap:16px;padding:12px 16px;border-bottom:1px solid var(--soft);font-size:15px}
+#cm-order .cmo-review .r span:first-child{color:var(--stone)}
+#cm-order .cmo-review .r span:last-child{text-align:right;font-weight:700}
+#cm-order .cmo-review .r.big span:last-child{font-family:'Unbounded',sans-serif;font-size:20px}
+#cm-order .cmo-done{text-align:center;padding:48px 16px}
+#cm-order .cmo-done .check{width:72px;height:72px;border-radius:50%;background:var(--gold);display:grid;place-items:center;margin:0 auto 20px;font-size:34px;font-weight:700}
+#cm-order .cmo-hidden{display:none}
+</style>
+
+<div class="cmo-top">
+  <div>
+    <div class="cmo-kicker">Church Merch · Welcome Boxes</div>
+  </div>
+  <div class="cmo-kicker" id="cmo-stepcount">Step 1</div>
+</div>
+<div class="cmo-progress"><i id="cmo-bar" style="width:8%"></i></div>
+
+<div class="cmo-layout">
+<main>
+
+<!-- STEP: BOX -->
+<section class="cmo-step" data-step="box">
+  <h2>What do you want to send your guests?</h2>
+  <p class="cmo-lead">Every box ships with your church's logo on everything inside — the notebook, the card, the sticker, all of it.</p>
+  <div class="cmo-cards">
+    <button type="button" class="cmo-card" data-tier="welcome">
+      <div class="cmo-name">Welcome</div>
+      <div class="cmo-from">Starting at</div>
+      <div class="cmo-price" data-from="welcome">$18 <small>/ box</small></div>
+      <div class="cmo-hint" data-fromnote="welcome">for 100+ boxes</div>
+      <ul>
+        <li>Notebook with your logo in full color</li>
+        <li>Welcome card with QR next step</li>
+        <li>Die-cut sticker</li>
+        <li>Snack or coffee</li>
+        <li>Mailer box with your logo</li>
+      </ul>
+    </button>
+    <button type="button" class="cmo-card featured" data-tier="plus">
+      <span class="cmo-badge">Most churches pick this</span>
+      <div class="cmo-name">Welcome Plus</div>
+      <div class="cmo-from">Starting at</div>
+      <div class="cmo-price" data-from="plus">$24 <small>/ box</small></div>
+      <div class="cmo-hint" data-fromnote="plus">for 100+ boxes</div>
+      <div class="cmo-upsell">Everything in Welcome, plus a mug</div>
+      <ul>
+        <li class="add">Ceramic coffee mug with your logo</li>
+        <li>Full-color logo notebook</li>
+        <li>Welcome card, sticker, snack</li>
+        <li>Mailer box with your logo</li>
+      </ul>
+    </button>
+    <button type="button" class="cmo-card" data-tier="pro">
+      <div class="cmo-name">Welcome Pro</div>
+      <div class="cmo-from">Starting at</div>
+      <div class="cmo-price" data-from="pro">$29 <small>/ box</small></div>
+      <div class="cmo-hint" data-fromnote="pro">for 100+ boxes · 50-box minimum</div>
+      <div class="cmo-upsell">Everything in Plus, with a premium journal</div>
+      <ul>
+        <li class="add">Debossed journal with your logo (in place of the notebook)</li>
+        <li class="add">Upgraded premium mug with your logo</li>
+        <li>Welcome card, sticker, snack</li>
+        <li>Mailer box with your logo</li>
+      </ul>
+    </button>
+  </div>
+  <button type="button" class="cmo-basic" data-tier="basic">
+    <span class="cmo-basic-l"><span class="cmo-kicker">Keep it simple</span><b>Welcome Basic</b><small>A letter from your church with a $5 Chick-fil-A or Starbucks gift card inside, mailed to each guest. You customize the letter.</small></span>
+    <span class="cmo-basic-r"><b data-from="basic">$9</b><small>/ letter at 100+ · gift card + postage included</small></span>
+  </button>
+  <p class="cmo-hint" style="text-align:center;margin-top:18px">Want shirts in the box? Add a custom tee at the end, from $13 a box.</p>
+  <p class="cmo-custom-link">Need something different? <button type="button" class="cmo-linkbtn" data-tier="custom">Build your own box</button></p>
+</section>
+
+<!-- STEP: CUSTOM -->
+<section class="cmo-step" data-step="custom">
+  <h2>Build your own box</h2>
+  <p class="cmo-lead">Pick what goes inside. We'll price it and send you a quote within one business day.</p>
+  <div class="cmo-group"><p>Tee</p>
+    <div class="cmo-tiles four" data-pick="tee">
+      <button type="button" class="cmo-tile" data-v="Gildan 64000 Softstyle"><b>Softstyle</b><span>Gildan 64000</span></button>
+      <button type="button" class="cmo-tile" data-v="Next Level 3600"><b>Premium</b><span>Next Level 3600</span></button>
+      <button type="button" class="cmo-tile" data-v="Comfort Colors 1717"><b>Heavyweight</b><span>Comfort Colors 1717</span></button>
+      <button type="button" class="cmo-tile" data-v="No tee"><b>No tee</b><span>Skip the shirt</span></button>
+    </div></div>
+  <div class="cmo-group"><p>Drinkware</p>
+    <div class="cmo-tiles four" data-pick="drink">
+      <button type="button" class="cmo-tile" data-v="None"><b>None</b><span>No drinkware</span></button>
+      <button type="button" class="cmo-tile" data-v="16.5 oz Boston mug with wood lid"><b>Boston mug</b><span>16.5 oz, wood lid</span></button>
+      <button type="button" class="cmo-tile" data-v="15 oz Campfire mug"><b>Campfire mug</b><span>15 oz ceramic</span></button>
+      <button type="button" class="cmo-tile" data-v="20 oz tumbler"><b>Tumbler</b><span>20 oz stainless</span></button>
+    </div></div>
+  <div class="cmo-group"><p>Paper</p>
+    <div class="cmo-tiles four" data-pick="paper">
+      <button type="button" class="cmo-tile" data-v="None"><b>None</b><span>No paper goods</span></button>
+      <button type="button" class="cmo-tile" data-v="Hardcover notebook"><b>Notebook</b><span>5" x 7" hardcover</span></button>
+      <button type="button" class="cmo-tile" data-v="Leeman Nuba journal"><b>Journal</b><span>Leeman Nuba, debossed</span></button>
+      <button type="button" class="cmo-tile" data-v="Pen only"><b>Pen</b><span>With your logo</span></button>
+    </div></div>
+  <label class="cmo-field"><span>Anything else you want in the box?</span>
+    <textarea id="cmo-extras" placeholder="Hats, totes, a book from your pastor, gift cards…"></textarea></label>
+  <p class="cmo-err" id="cmo-err-custom">Pick a tee, drinkware and paper option to keep going.</p>
+</section>
+
+<!-- STEP: GIFT CARD + LETTER (Welcome Basic only) -->
+<section class="cmo-step" data-step="gift">
+  <h2>Pick the gift card and letter</h2>
+  <p class="cmo-lead">Every Welcome Basic is a letter from your church with a $5 gift card inside, mailed to each guest by USPS. Gift card and postage are included.</p>
+  <div class="cmo-group"><p>Where's the $5 gift card from?</p>
+    <div class="cmo-tiles three" data-pick="giftbrand">
+      <button type="button" class="cmo-tile" data-v="Chick-fil-A"><b>Chick-fil-A</b><span>Lunch is on us</span></button>
+      <button type="button" class="cmo-tile" data-v="Starbucks"><b>Starbucks</b><span>Coffee on us</span></button>
+      <button type="button" class="cmo-tile" data-v="Dunkin'"><b>Dunkin'</b><span>Coffee and a donut</span></button>
+      <button type="button" class="cmo-tile" data-v="Krispy Kreme"><b>Krispy Kreme</b><span>A sweet hello</span></button>
+      <button type="button" class="cmo-tile" data-v="Panera"><b>Panera</b><span>Coffee or a pastry</span></button>
+      <button type="button" class="cmo-tile" data-v="Local"><b>A local spot</b><span>A coffee shop near your church</span></button>
+    </div></div>
+  <label class="cmo-field" id="cmo-giftfrom-wrap"><span>Which local spot?</span>
+    <input id="cmo-giftfrom" placeholder="Name and city, e.g. Cocoa Cinnamon, Durham"></label>
+  <div class="cmo-group"><p>Letter style</p>
+    <div class="cmo-tiles three" data-pick="lstyle">
+      <button type="button" class="cmo-tile" data-v="Classic"><b>Classic</b><span>Letterhead with your logo up top, serif type</span></button>
+      <button type="button" class="cmo-tile" data-v="Modern"><b>Modern</b><span>Bold header in your brand colors, clean sans type</span></button>
+      <button type="button" class="cmo-tile" data-v="Handwritten"><b>Handwritten</b><span>Script font that reads like a personal note</span></button>
+    </div></div>
+  <div class="cmo-group"><p>Greeting</p>
+    <div class="cmo-tiles two" data-pick="lgreet">
+      <button type="button" class="cmo-tile" data-v="First name"><b>Dear Sarah,</b><span>Each letter uses the guest's first name</span></button>
+      <button type="button" class="cmo-tile" data-v="General"><b>Hey friend,</b><span>Same greeting on every letter</span></button>
+    </div></div>
+  <div class="cmo-group"><p>Paper</p>
+    <div class="cmo-tiles two" data-pick="lpaper">
+      <button type="button" class="cmo-tile" data-v="Standard"><b>Standard</b><span>Bright white 24 lb letter paper</span><em>Included</em></button>
+      <button type="button" class="cmo-tile" data-v="Premium"><b>Premium</b><span>Heavy cotton cardstock that feels hand-delivered</span><em>+$1 per letter</em></button>
+    </div></div>
+  <p class="cmo-err" id="cmo-err-gift">Pick a gift card, letter style, greeting and paper.</p>
+</section>
+
+<!-- STEP: QUANTITY -->
+<section class="cmo-step" data-step="qty">
+  <h2 id="cmo-qty-h">How many boxes?</h2>
+  <p class="cmo-lead" id="cmo-qty-lead">24 minimum. The more you order, the less each box costs.</p>
+  <div class="cmo-qty">
+    <button type="button" id="cmo-minus" aria-label="Fewer boxes">−</button>
+    <input type="number" id="cmo-qty" min="24" max="1000" value="50" inputmode="numeric">
+    <button type="button" id="cmo-plus" aria-label="More boxes">+</button>
+  </div>
+  <div class="cmo-chips" id="cmo-qchips"></div>
+  <div class="cmo-nudge" id="cmo-nudge"><span id="cmo-nudge-text"></span><button type="button" id="cmo-nudge-btn">Bump it up</button></div>
+  <p class="cmo-err" id="cmo-err-qty"></p>
+  <table class="cmo-breaks" id="cmo-breaks"><thead><tr><th id="cmo-breaks-u">Boxes</th><th id="cmo-breaks-h">Price per box</th></tr></thead><tbody></tbody></table>
+</section>
+
+<!-- STEP: DELIVERY -->
+<section class="cmo-step" data-step="delivery">
+  <h2>How should we get them to you?</h2>
+  <p class="cmo-lead">Pick what works for your team.</p>
+  <div class="cmo-tiles three" data-pick="delivery" id="cmo-dlv-tiles">
+    <button type="button" class="cmo-tile" data-v="pack"><b>Pack It</b><span>We ship every piece, branded and loose. Your volunteers pack the boxes together.</span><em>$1 off every box</em></button>
+    <button type="button" class="cmo-tile" data-v="stack"><b>Stack It</b><span id="cmo-stack-s">Boxes arrive packed and size-labeled, ready to stack at your welcome desk.</span><em>Free local delivery in the Triangle</em></button>
+    <button type="button" class="cmo-tile" data-v="ship"><b>Ship It</b><span id="cmo-ship-s">We store your boxes and mail one to each guest's door the week they visit.</span><em id="cmo-ship-e">+$14 per box shipped</em></button>
+  </div>
+  <div class="cmo-group" id="cmo-zip-wrap" style="margin-top:18px">
+    <label class="cmo-field" style="max-width:260px"><span>Ship-to ZIP code</span>
+      <input id="cmo-zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="27701"></label>
+    <p class="cmo-hint" id="cmo-ship-quote">Free delivery in the Triangle. Everywhere else ships UPS Ground.</p>
+    <p class="cmo-err" id="cmo-err-zip">Enter a 5-digit ZIP so we can price shipping.</p>
+  </div>
+</section>
+
+<!-- STEP: EXTRAS (upsell) -->
+<section class="cmo-step" data-step="extras">
+  <h2>Make it even better</h2>
+  <p class="cmo-lead">Optional upgrades. Skip any of them and your box is still ready to go.</p>
+  <div id="cmo-addons">
+    <div class="cmo-group" id="cmo-tee-wrap"><p>Add a custom tee to every box</p>
+      <div class="cmo-tiles four" data-pick="teeadd">
+        <button type="button" class="cmo-tile" data-v="none"><b>No tee</b><span>Keep it to what's in the box</span></button>
+        <button type="button" class="cmo-tile" data-v="good"><b>Softstyle</b><span>Gildan 64000, your logo on the front</span><em>+$13 / box</em></button>
+        <button type="button" class="cmo-tile" data-v="better"><b>Premium</b><span>Next Level 3600, soft cotton, your logo on the front</span><em>+$15 / box</em></button>
+        <button type="button" class="cmo-tile" data-v="best"><b>Heavyweight</b><span>Comfort Colors 1717, our best tee, your logo on the front</span><em>+$17 / box</em></button>
+      </div>
+      <p class="cmo-hint" id="cmo-tee-tot">Guests wear it around town, so it keeps working after Sunday.</p>
+    </div>
+    <label class="cmo-addon" id="cmo-addon-bp">
+      <input type="checkbox" id="cmo-backprint">
+      <span class="cmo-addon-box" aria-hidden="true"></span>
+      <span class="cmo-addon-text"><b>Add a back print to the tee</b><small>Your logo, a verse or your church name across the back. Guests wear it around town, so it's free advertising.</small></span>
+      <span class="cmo-addon-price"><span id="cmo-bp-price">+$3 <small>/ box</small></span><em id="cmo-bp-tot"></em></span>
+    </label>
+    <label class="cmo-addon" id="cmo-addon-mug">
+      <input type="checkbox" id="cmo-mugup">
+      <span class="cmo-addon-box" aria-hidden="true"></span>
+      <span class="cmo-addon-text"><b>Upgrade to our premium mug</b><small>A heavier, nicer mug, the same one in Welcome Pro. The piece guests keep using every morning.</small></span>
+      <span class="cmo-addon-price"><span>+$3 <small>/ box</small></span><em id="cmo-mug-tot"></em></span>
+    </label>
+    <label class="cmo-addon" id="cmo-addon">
+      <input type="checkbox" id="cmo-custombox">
+      <span class="cmo-addon-box" aria-hidden="true"></span>
+      <span class="cmo-addon-text"><b id="cmo-cb-title">Upgrade to a fully custom box</b><small>Your design printed on every side, instead of our box with your logo on the lid. It's the first thing a guest sees.</small></span>
+      <span class="cmo-addon-price"><span id="cmo-cb-price">+$5 <small>/ box</small></span><em id="cmo-cb-tot">Free at 50+ boxes</em></span>
+    </label>
+  </div>
+</section>
+
+<!-- STEP: SIZES -->
+<section class="cmo-step" data-step="sizes">
+  <h2 id="cmo-sizes-h">Shirt sizes</h2>
+  <p class="cmo-lead" id="cmo-sizes-lead">Tell us how many of each size. We put a size sticker on the bottom of every box so your greeters grab the right one.</p>
+  <button type="button" class="cmo-chip" id="cmo-suggest" style="margin-bottom:16px">Use a typical mix</button>
+  <div class="cmo-sizes" id="cmo-sizes"></div>
+  <p class="cmo-count" id="cmo-count"></p>
+  <p class="cmo-hint">2XL and 3XL add $3 per box for the bigger shirt.</p>
+</section>
+
+<!-- STEP: BRAND -->
+<section class="cmo-step" data-step="brand">
+  <h2>Make it yours</h2>
+  <p class="cmo-lead">We'll email you a mockup with your logo before anything gets made.</p>
+  <div class="cmo-two">
+    <div>
+      <label class="cmo-field"><span>Your logo</span>
+        <div class="cmo-drop" id="cmo-drop">
+          <img id="cmo-logo-prev" alt="">
+          <div><b id="cmo-logo-name">Upload a PNG or JPG</b><div class="cmo-hint" style="margin:2px 0 0">Transparent PNG works best. Vector files? Email them after you order.</div></div>
+          <input type="file" id="cmo-logo" accept=".png,.jpg,.jpeg,image/png,image/jpeg">
+        </div>
+        <p class="cmo-err" id="cmo-err-logo">Add your logo to keep going.</p>
+      </label>
+      <label class="cmo-field"><span>Brand colors <small style="font-weight:400;color:var(--stone)">(optional)</small></span>
+        <input id="cmo-colors" placeholder="Hex codes, or “match our website”"></label>
+      <label class="cmo-field"><span id="cmo-msg-l">Welcome card message</span>
+        <textarea id="cmo-msg" maxlength="350">We're so glad you joined us! This is a little thank-you for spending your Sunday with us. We'd love to help you take a next step — scan the code on the back to get connected.</textarea>
+        <div class="cmo-hint"><span id="cmo-msg-n">0</span>/<span id="cmo-msg-max">350</span></div></label>
+      <label class="cmo-field"><span>Signed by</span>
+        <input id="cmo-sig" placeholder="Pastor Mike & the Revolve family"></label>
+      <label class="cmo-field"><span>Where should the QR code go?</span>
+        <input id="cmo-qr" type="url" placeholder="https://yourchurch.com/next-steps">
+        <div class="cmo-hint">Your connect card, Planning Center form or plan-a-visit page.</div>
+        <p class="cmo-err" id="cmo-err-brand">Add your card message, who it's signed by and the QR link.</p></label>
+    </div>
+    <div>
+      <p style="font-weight:700;margin-bottom:8px;font-size:14px" id="cmo-prev-l">Card preview</p>
+      <div class="cmo-cardprev">
+        <div class="logo" id="cmo-cp-logo"><span>Your logo</span></div>
+        <div class="greet" id="cmo-cp-greet" style="display:none"></div>
+        <div class="msg" id="cmo-cp-msg"></div>
+        <div class="sig" id="cmo-cp-sig">— Your church family</div>
+        <div class="gift" id="cmo-cp-gift" style="display:none"></div>
+        <div class="qr"><i></i><span id="cmo-cp-qr">Scan to take your next step</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP: DETAILS -->
+<section class="cmo-step" data-step="details">
+  <h2>Almost there</h2>
+  <p class="cmo-lead">Who we're talking to and where the boxes go.</p>
+  <div class="cmo-two">
+    <label class="cmo-field"><span>Church name</span><input id="cmo-church" autocomplete="organization"></label>
+    <label class="cmo-field"><span>Your name</span><input id="cmo-name" autocomplete="name"></label>
+    <label class="cmo-field"><span>Email</span><input id="cmo-email" type="email" autocomplete="email"></label>
+    <label class="cmo-field"><span>Phone</span><input id="cmo-phone" type="tel" autocomplete="tel"></label>
+    <label class="cmo-field"><span>Church website <small style="font-weight:400;color:var(--stone)">(optional)</small></span><input id="cmo-site" type="url"></label>
+    <label class="cmo-field"><span>Need them by</span><input id="cmo-date" type="date"><div class="cmo-hint">Plan on about 3 weeks after you approve your mockup.</div></label>
+  </div>
+  <div id="cmo-addr-wrap">
+    <label class="cmo-field"><span>Ship-to address</span><textarea id="cmo-addr" placeholder="Church name, street, city, state, ZIP" style="min-height:80px"></textarea></label>
+  </div>
+  <div id="cmo-trigger-wrap" class="cmo-group">
+    <p id="cmo-trigger-q">How will you tell us a guest needs a box?</p>
+    <div class="cmo-tiles two" data-pick="trigger">
+      <button type="button" class="cmo-tile" data-v="Planning Center (automatic)"><b>Planning Center</b><span>When a guest fills out your connect card, we ship automatically.</span></button>
+      <button type="button" class="cmo-tile" data-v="Send-a-box form"><b id="cmo-trig-form-b">Send-a-box form</b><span id="cmo-trig-form-s">We give you a simple link. Enter a guest's name, address and size.</span></button>
+    </div>
+  </div>
+  <div class="cmo-group" id="cmo-pay-wrap">
+    <p>How would you like to pay?</p>
+    <div class="cmo-tiles two" data-pick="pay">
+      <button type="button" class="cmo-tile" data-v="Invoice after mockup approval"><b>Invoice me</b><span>We send an invoice after you approve the mockup.</span></button>
+      <button type="button" class="cmo-tile" data-v="Card after mockup approval"><b>Pay by card</b><span>We send a secure card link after you approve the mockup.</span></button>
+    </div>
+  </div>
+  <label class="cmo-field"><span>Anything else? <small style="font-weight:400;color:var(--stone)">(optional)</small></span><textarea id="cmo-notes" style="min-height:70px"></textarea></label>
+  <p class="cmo-err" id="cmo-err-details">Please fill in the highlighted details.</p>
+</section>
+
+<!-- STEP: REVIEW -->
+<section class="cmo-step" data-step="review">
+  <h2 id="cmo-review-h">Look good?</h2>
+  <p class="cmo-lead" id="cmo-review-lead">Nothing gets made until you approve your mockup.</p>
+  <div class="cmo-review" id="cmo-review"></div>
+  <p class="cmo-err" id="cmo-err-submit">Something went wrong sending your order. Please try again, or email us at contact@churchmerch.store.</p>
+</section>
+
+<!-- DONE -->
+<section class="cmo-step" data-step="done">
+  <div class="cmo-done">
+    <div class="check">✓</div>
+    <h2 id="cmo-done-h">You're all set.</h2>
+    <p class="cmo-lead" id="cmo-done-p" style="max-width:520px;margin:12px auto 0">We'll email you a mockup with your logo shortly. Reply "approved" and we'll get building.</p>
+  </div>
+</section>
+
+<div class="cmo-nav" id="cmo-nav">
+  <button type="button" class="cmo-back" id="cmo-back" hidden>← Back</button>
+  <span></span>
+  <button type="button" class="cmo-btn" id="cmo-next">Continue</button>
+</div>
+
+</main>
+
+<aside class="cmo-summary" id="cmo-summary">
+  <h3>Your order</h3>
+  <div id="cmo-sum-rows"></div>
+  <div class="total"><span>Estimated total</span><b id="cmo-sum-total">—</b></div>
+  <p class="fine" id="cmo-sum-fine">Shipping for Pack It and Stack It outside the Triangle is added at cost.</p>
+</aside>
+</div>
+
+<div class="cmo-bar" id="cmo-mbar"><div><small id="cmo-mbar-l">Estimated total</small><b id="cmo-mbar-t">—</b></div><button type="button" class="cmo-btn" id="cmo-next-m" style="padding:12px 18px">Continue</button></div>
+
+<!-- hidden submission target -->
+<iframe name="cmo-sink" id="cmo-sink" class="cmo-hidden" title="submission"></iframe>
+<form id="cmo-post" class="cmo-hidden" method="POST" enctype="multipart/form-data" target="cmo-sink" accept-charset="utf-8"></form>
+
+<script>
+(function(){
+  /* ============ SETTINGS — edit these ============ */
+  var JOTFORM_ID = "262935724343057";           // your "Welcome Box Orders - Website" form
+  var FIELDS = {                                // Jotform input names (from the form)
+    requestType:"q2_q2_textbox0", tier:"q3_q3_textbox1", qty:"q4_q4_textbox2", delivery:"q5_q5_textbox3",
+    sizes:"q6_q6_textbox4", custom:"q7_q7_textarea5", perBox:"q8_q8_textbox6", shipping:"q9_q9_textbox7",
+    sizeUp:"q10_q10_textbox8", total:"q11_q11_textbox9", church:"q12_q12_textbox10", contact:"q13_q13_textbox11",
+    email:"q14_q14_email12", phone:"q15_q15_textbox13", site:"q16_q16_textbox14", logo:"q17_q17_fileupload15[]",
+    colors:"q18_q18_textbox16", msg:"q19_q19_textarea17", sig:"q20_q20_textbox18", qr:"q21_q21_textbox19",
+    neededBy:"q22_q22_textbox20", address:"q23_q23_textarea21", trigger:"q24_q24_textbox22", pay:"q25_q25_textbox23",
+    notes:"q26_q26_textarea24", summary:"q27_q27_textarea25"
+  };
+  var BREAKS = [24,50,100];                     // start of each price break: 24-49, 50-99, 100-1,000
+  var PRICES = {                                // price per box at each break (null = not offered)
+    basic:  [11,10,9],                           // Welcome Basic: letter + $5 gift card + USPS postage, all included
+    welcome:[22,20,18],                        // no tee; tees are an add-on (TEES)
+    plus:   [31,27,24],
+    pro:    [null,32,29]
+  };
+  var TIER_NAMES = {basic:"Welcome Basic", welcome:"Welcome", plus:"Welcome Plus", pro:"Welcome Pro", custom:"Custom build"};
+  var TEES = {good:{name:"Gildan 64000 Softstyle",price:13}, better:{name:"Next Level 3600",price:15}, best:{name:"Comfort Colors 1717",price:17}};   // tee add-on, per box
+  var TIER_MIN = {pro:50};                            // tier minimums above MIN_QTY, if any
+  var CUSTOM_BOX_UPCHARGE = 5, CUSTOM_BOX_FREE_AT = 50;   // fully custom printed box add-on
+  var MUG_UPGRADE = 3;                          // Plus: premium mug upgrade, per box
+  var BACK_PRINT = 3;                           // tee back print add-on, per box
+  var GIFT_CARD_VALUE = 5;                      // included in the Welcome Basic price
+  var PREMIUM_PAPER = 1;                        // Welcome Basic premium cardstock add-on, per letter
+  var LETTER_MSG = "Thank you for worshiping with us on Sunday. It meant a lot to have you there, and we hope you felt at home. We'd love to buy your next coffee, so the gift card inside is on us. If you have questions about our church or want to take a next step, scan the code below. We'd love to see you again this week.";
+  /* UPS Ground from Durham for one 20x16x14 carton (holds 12 boxes, bills at 33 lb), by zone */
+  var ZONE_RATES = {2:18.38, 3:22.22, 4:24.67, 5:24.67, 6:29.00, 7:35.80, 8:49.24};
+  var BOXES_PER_CARTON = 12, CARTON_FEE = 2, SINGLE_BOX_RATE = 9, FREIGHT_AT = 200;
+  var LOCAL_ZIP3 = ["275","276","277"];         // Triangle: free local delivery
+  var ZONES = "0000000000444444445545545454445555455555555555555555445055554444444444444444444444444444440000000000444444444444444444444444444445444444544444444444444443334444444444444444333444444444444444440444444333330333333330333333333333333222233333222232223333333333333343333333302222222222222222233333333232334444433433444444444444444444445505544545055040440544404444444444455444444440333345444455455555555440444444433343333333304444444400444444444444444444444444443340444444444444444444444444445544444554555555555555556665555000555555555055505505555555555555550556666556666666006666666600666666777077778788885555555554555555554450554555445505555555550055555055555555505550555556666566666665066666666666000000550555555055555055555555555555660066666655055565556666555565666666666660656655666666666666666666667777777776676777777000777777777777888888807808878800888807880780088700007707770777767760000088088808808888888880888888888888888888808888888808880888888888888888888800000000888888888888888880888888800000";   // UPS zone by first 3 digits of ZIP (0 = custom quote: AK/HI/PR or unknown)
+  var PACK_DISCOUNT = 1, SHIP_PER_BOX = 14, BIG_SIZE_UPCHARGE = 3, LEAD_DAYS = 21, MAX_QTY = 1000, MIN_QTY = 24;
+  var SIZES = ["S","M","L","XL","2XL","3XL"], TYPICAL = {S:5,M:10,L:15,XL:15,"2XL":5,"3XL":3};   // typical mix, as a ratio
+  /* ================================================ */
+
+  var root = document.getElementById("cm-order");
+  var $ = function(s){return root.querySelector(s)}, $$ = function(s){return Array.prototype.slice.call(root.querySelectorAll(s))};
+  var money = function(n){return "$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})};
+  var state = {tier:"plus", qty:50, delivery:"stack", sizes:{}, custom:{teeadd:"none"}, trigger:null, pay:null, logo:null, step:0, customBox:false, backPrint:false, mugUp:false};
+  SIZES.forEach(function(s){state.sizes[s]=0});
+
+  function bracket(q){var i=0;for(var k=0;k<BREAKS.length;k++){if(q>=BREAKS[k])i=k}return i}
+  function perBox(tier,q){return PRICES[tier]?PRICES[tier][bracket(q)]:null}
+  function isBasic(){return state.tier==="basic"}
+  function minQty(){return TIER_MIN[state.tier]||MIN_QTY}
+  function unit(){return isBasic()?"letter":"box"}
+  function units(n){return isBasic()?(n===1?"letter":"letters"):(n===1?"box":"boxes")}
+  function teeKey(){var t=state.custom.teeadd;return t&&t!=="none"?t:null}
+  function hasTee(){if(isBasic())return false;if(state.tier==="custom")return !!(state.custom.tee&&state.custom.tee!=="No tee");return !!teeKey()}
+  function teeCharge(){return state.tier!=="custom"&&!isBasic()&&teeKey()?TEES[teeKey()].price*state.qty:0}
+  function bigCount(){return (state.sizes["2XL"]||0)+(state.sizes["3XL"]||0)}
+  function sizeTotal(){return SIZES.reduce(function(a,s){return a+(state.sizes[s]||0)},0)}
+  function steps(){
+    var s=["box"]; if(state.tier==="custom")s.push("custom"); if(isBasic())s.push("gift");
+    s.push("qty"); if(!isBasic())s.push("delivery"); s.push("brand","details");
+    if(!isBasic()&&state.tier!=="custom")s.push("extras"); if(hasTee())s.push("sizes"); s.push("review"); return s;
+  }
+  function bulkShip(){
+    if(isBasic()||state.delivery==="ship")return null;
+    var z=(state.zip||"").trim(); if(!/^\d{5}$/.test(z))return {pending:true};
+    var z3=z.slice(0,3); if(LOCAL_ZIP3.indexOf(z3)>-1)return {local:true,amount:0};
+    var zone=Number(ZONES.charAt(Number(z3))); if(!zone||!ZONE_RATES[zone])return {quote:true};
+    var q=Math.min(state.qty,MAX_QTY), full=Math.floor(q/BOXES_PER_CARTON), rem=q%BOXES_PER_CARTON, rate=ZONE_RATES[zone];
+    var cost=full*(rate+CARTON_FEE), cartons=full, singles=0;
+    if(rem>=4){cost+=rate+CARTON_FEE;cartons++} else if(rem){cost+=rem*SINGLE_BOX_RATE;singles=rem}
+    return {zone:zone,cartons:cartons,singles:singles,amount:Math.ceil(cost),freight:q>=FREIGHT_AT};
+  }
+  function shipLabel(){var b=bulkShip();if(!b||b.pending)return "";if(b.local)return "Free local delivery (Triangle)";if(b.quote)return "We'll quote shipping to your ZIP";
+    return "UPS Ground: "+b.cartons+" carton"+(b.cartons===1?"":"s")+(b.singles?" + "+b.singles+" single box"+(b.singles>1?"es":""):"")+" · "+money(b.amount)}
+  function calc(){
+    if(state.tier==="custom")return null;
+    var pb=perBox(state.tier,state.qty); if(pb==null)return null;
+    var adj=state.delivery==="pack"&&!isBasic()?-PACK_DISCOUNT:0;
+    var boxes=(pb+adj)*state.qty, bq=bulkShip(), ship=state.delivery==="ship"&&!isBasic()?SHIP_PER_BOX*state.qty:(bq&&bq.amount?bq.amount:0), big=hasTee()?bigCount()*BIG_SIZE_UPCHARGE:0, tee=teeCharge();
+    var cbox=customBoxCharge(), back=backPrintCharge(), paper=isBasic()&&state.custom.lpaper==="Premium"?PREMIUM_PAPER*state.qty:0, mug=mugCharge();
+    return {pb:pb+adj, boxes:boxes, tee:tee, ship:ship, big:big, cbox:cbox, back:back, paper:paper, mug:mug, total:boxes+tee+ship+big+cbox+back+paper+mug};
+  }
+  function customBoxCharge(){return !isBasic()&&state.customBox&&state.qty<CUSTOM_BOX_FREE_AT?CUSTOM_BOX_UPCHARGE*state.qty:0}
+  function mugCharge(){return state.mugUp&&state.tier==="plus"?MUG_UPGRADE*state.qty:0}
+  function backPrintCharge(){return state.backPrint&&hasTee()?BACK_PRINT*state.qty:0}
+  function giftBrand(){var b=state.custom.giftbrand;if(!b)return "";return b==="Local"?(val("#cmo-giftfrom")||"a local spot"):b}
+  function giftLine(){return state.custom.giftbrand?"$"+GIFT_CARD_VALUE+" "+giftBrand()+" gift card":""}
+  function letterLine(){var c=state.custom;return [c.lstyle&&c.lstyle+" style",c.lgreet==="First name"?"guest's first name in greeting":c.lgreet?"general greeting":"",c.lpaper&&(c.lpaper==="Premium"?"premium cotton cardstock":"standard paper")].filter(Boolean).join(", ")}
+  function customBoxLabel(){if(!state.customBox)return "Our box + your logo on the lid";return state.qty>=CUSTOM_BOX_FREE_AT?"Fully custom (free at 50+)":"Fully custom (+$"+CUSTOM_BOX_UPCHARGE+"/box)"}
+  $("#cmo-custombox").addEventListener("change",function(){state.customBox=this.checked;paintAddons();update()});
+  $("#cmo-mugup").addEventListener("change",function(){state.mugUp=this.checked;paintAddons();update()});
+  $("#cmo-backprint").addEventListener("change",function(){state.backPrint=this.checked;paintAddons();update()});
+  function paintAddons(){
+    var show=!isBasic()&&!isQuote(), q=state.qty, free=q>=CUSTOM_BOX_FREE_AT;
+    $("#cmo-addons").style.display=show?"":"none"; if(!show)return;
+    $("#cmo-addon-bp").style.display=hasTee()?"":"none";
+    $("#cmo-addon-mug").style.display=state.tier==="plus"?"":"none"; $("#cmo-mug-tot").textContent="+"+money(MUG_UPGRADE*q)+" for "+q+" boxes";
+    var tk=teeKey(); $("#cmo-tee-tot").textContent=tk?"+"+money(TEES[tk].price*q)+" for "+q+" boxes. You'll pick sizes next.":"Guests wear it around town, so it keeps working after Sunday.";
+    $("#cmo-bp-tot").textContent="+"+money(BACK_PRINT*q)+" for "+q+" boxes";
+    $("#cmo-cb-title").textContent=free?"Upgrade to a fully custom box — free":"Upgrade to a fully custom box";
+    $("#cmo-cb-price").innerHTML=free?"Free":"+$"+CUSTOM_BOX_UPCHARGE+" <small>/ box</small>";
+    $("#cmo-cb-tot").textContent=free?"Included at 50+ boxes":"+"+money(CUSTOM_BOX_UPCHARGE*q)+" · free at 50+";
+  }
+
+  /* ---------- box step ---------- */
+  $$("[data-tier]").forEach(function(b){b.addEventListener("click",function(){
+    state.tier=b.getAttribute("data-tier");
+    if(isBasic())state.delivery="ship"; else if(state.delivery==="ship"&&state._wasBasic)state.delivery="stack";
+    state._wasBasic=isBasic();
+    if(state.qty<minQty())setQty(minQty());
+    paintTiers(); paintTiles(); update();
+    if(state.tier==="custom") go(1);
+  })});
+  function paintTiers(){
+    $$(".cmo-card,.cmo-basic").forEach(function(c){c.classList.toggle("sel",c.getAttribute("data-tier")===state.tier)});
+  }
+
+  /* ---------- tile pickers ---------- */
+  $$("[data-pick]").forEach(function(group){
+    var key=group.getAttribute("data-pick");
+    $$("[data-pick='"+key+"'] .cmo-tile").forEach(function(t){t.addEventListener("click",function(){
+      var v=t.getAttribute("data-v");
+      if(key==="delivery")state.delivery=v; else if(key==="trigger")state.trigger=v; else if(key==="pay")state.pay=v; else state.custom[key]=v;
+      paintTiles(); if(key==="teeadd"){paintAddons();navMeta()} if(key==="delivery")paintShipQuote(); update();
+    })});
+  });
+  function paintTiles(){
+    $$("[data-pick]").forEach(function(group){
+      var key=group.getAttribute("data-pick"), cur=key==="delivery"?state.delivery:key==="trigger"?state.trigger:key==="pay"?state.pay:state.custom[key];
+      $$("[data-pick='"+key+"'] .cmo-tile").forEach(function(t){t.classList.toggle("sel",t.getAttribute("data-v")===cur)});
+    });
+  }
+
+  /* ---------- quantity ---------- */
+  var qIn=$("#cmo-qty");
+  function setQty(n){n=Math.round(Number(n)||0);state.qty=n;qIn.value=n;paintQty();update()}
+  qIn.addEventListener("input",function(){state.qty=Math.round(Number(qIn.value)||0);paintQty();update()});
+  $("#cmo-minus").addEventListener("click",function(){setQty(Math.max(MIN_QTY,state.qty-1))});
+  $("#cmo-plus").addEventListener("click",function(){setQty(Math.min(MAX_QTY,state.qty+1))});
+  var chips=$("#cmo-qchips");
+  [24,50,100,250,500].forEach(function(n){var c=document.createElement("button");c.type="button";c.className="cmo-chip";c.textContent=n;c.dataset.n=n;c.addEventListener("click",function(){setQty(n)});chips.appendChild(c)});
+  $("#cmo-nudge-btn").addEventListener("click",function(){var i=bracket(state.qty);if(i<BREAKS.length-1)setQty(BREAKS[i+1])});
+  function paintQty(){
+    $$("#cmo-qchips .cmo-chip").forEach(function(c){c.classList.toggle("sel",Number(c.dataset.n)===state.qty)});
+    var err=$("#cmo-err-qty"); err.classList.remove("show");
+    if(state.qty>MAX_QTY){err.textContent="Over 1,000 boxes? We'll build you a custom quote — continue and we'll reach out.";err.classList.add("show")}
+    var tbody=$("#cmo-breaks tbody"); tbody.innerHTML="";
+    var tier=state.tier==="custom"?null:state.tier; $("#cmo-breaks").style.display=tier?"":"none";
+    $("#cmo-qty-h").textContent=isBasic()?"How many letters?":"How many boxes?";
+    $("#cmo-qty-lead").textContent=isBasic()?(MIN_QTY+" minimum. Every letter includes the $"+GIFT_CARD_VALUE+" gift card and USPS postage, and the more you order, the less each one costs. Order a few months' worth; we hold them and mail each one the week the guest visits."):((minQty()>MIN_QTY?TIER_NAMES[state.tier]+" starts at "+minQty()+" boxes.":minQty()+" minimum.")+" The more you order, the less each box costs.");
+    $("#cmo-breaks-h").textContent="Price per "+unit(); $("#cmo-breaks-u").textContent=isBasic()?"Letters":"Boxes";
+    $$("#cmo-qchips .cmo-chip").forEach(function(c){c.style.display=Number(c.dataset.n)<minQty()?"none":""});
+    if(tier){BREAKS.forEach(function(b,i){if(PRICES[tier][i]==null)return;var hi=i<BREAKS.length-1?BREAKS[i+1]-1:MAX_QTY;var tr=document.createElement("tr");if(state.qty>=b&&state.qty<=hi)tr.className="cur";tr.innerHTML="<td>"+b+"–"+hi.toLocaleString()+"</td><td>"+money(PRICES[tier][i])+"</td>";tbody.appendChild(tr)})}
+    var n=$("#cmo-nudge"); n.classList.remove("show");
+    if(tier&&state.qty>=MIN_QTY&&state.qty<=MAX_QTY){
+      var i=bracket(state.qty); if(i<BREAKS.length-1&&PRICES[tier][i]!=null){
+        var next=BREAKS[i+1], add=next-state.qty, save=PRICES[tier][i]-PRICES[tier][i+1];
+        var nowTot=PRICES[tier][i]*state.qty, nextTot=PRICES[tier][i+1]*next;
+        if(save>0&&(add<=Math.ceil(next*.25)||nextTot<=nowTot)){
+          $("#cmo-nudge-text").textContent= nextTot<=nowTot
+            ? "Add "+add+" more and you'll pay "+money(nowTot-nextTot)+" less overall ("+money(PRICES[tier][i+1])+" a "+unit()+")."
+            : "Add "+add+" more and every "+unit()+" drops to "+money(PRICES[tier][i+1])+" ("+money(save)+" off each).";
+          n.classList.add("show");
+        }
+      }
+    }
+  }
+
+  /* ---------- sizes ---------- */
+  var sizeWrap=$("#cmo-sizes");
+  SIZES.forEach(function(s){var d=document.createElement("div");d.className="cmo-size";d.innerHTML="<b>"+s+"</b><input type='number' min='0' inputmode='numeric' value='0' data-size='"+s+"'>";sizeWrap.appendChild(d)});
+  $$("[data-size]").forEach(function(inp){inp.addEventListener("input",function(){state.sizes[inp.dataset.size]=Math.max(0,Math.round(Number(inp.value)||0));paintSizes();update()})});
+  $("#cmo-suggest").addEventListener("click",function(){
+    var q=Math.min(state.qty,MAX_QTY), left=q, out={}, w=SIZES.reduce(function(a,s){return a+TYPICAL[s]},0), rem=[];
+    SIZES.forEach(function(s){var x=q*TYPICAL[s]/w;out[s]=Math.floor(x);left-=out[s];rem.push([s,x-out[s]])});
+    rem.sort(function(a,b){return b[1]-a[1]}); for(var k=0;left>0;k++){out[rem[k%rem.length][0]]++;left--}
+    SIZES.forEach(function(s){state.sizes[s]=out[s]}); $$("[data-size]").forEach(function(i){i.value=state.sizes[i.dataset.size]}); paintSizes(); update();
+  });
+  function paintSizes(){
+    var t=sizeTotal(), q=Math.min(state.qty,MAX_QTY), c=$("#cmo-count");
+    c.textContent=t+" of "+q+" boxes sized"+(t===q?" ✓":t>q?" — that's "+(t-q)+" too many":"");
+    c.className="cmo-count "+(t===q?"ok":"no");
+    var ship=state.delivery==="ship";
+    $("#cmo-sizes-h").textContent=ship?"Starting size mix":"Shirt sizes";
+    $("#cmo-sizes-lead").textContent=ship?"We'll stock your box bank with this mix. You'll pick the exact size for each guest when you send their box.":"Tell us how many of each size. We put a size sticker on the bottom of every box so your greeters grab the right one.";
+  }
+
+  /* ---------- brand ---------- */
+  var logoIn=$("#cmo-logo");
+  $("#cmo-drop").addEventListener("click",function(e){if(e.target!==logoIn)logoIn.click()});
+  logoIn.addEventListener("change",function(){
+    var f=logoIn.files&&logoIn.files[0]; if(!f)return;
+    if(!/\.(png|jpe?g)$/i.test(f.name)){alert("Please upload a PNG or JPG.");logoIn.value="";return}
+    state.logo=f; $("#cmo-logo-name").textContent=f.name;
+    var r=new FileReader(); r.onload=function(){var p=$("#cmo-logo-prev");p.src=r.result;p.style.display="block";$("#cmo-cp-logo").innerHTML="<img alt='' src='"+r.result+"'>"}; r.readAsDataURL(f);
+    $("#cmo-err-logo").classList.remove("show");
+  });
+  ["#cmo-msg","#cmo-sig","#cmo-qr"].forEach(function(id){$(id).addEventListener("input",paintCard)});
+  var lastBasic=null;
+  function paintBrandMode(){
+    var b=isBasic(), m=$("#cmo-msg"), prev=$(".cmo-cardprev"), st=state.custom.lstyle;
+    $("#cmo-msg-l").textContent=b?"Letter message":"Welcome card message";
+    m.maxLength=b?900:350; $("#cmo-msg-max").textContent=b?900:350;
+    if(lastBasic!==b){ if(b&&!m.dataset.edited)m.value=LETTER_MSG; if(!b&&!m.dataset.edited)m.value=m.defaultValue; lastBasic=b; }
+    $("#cmo-prev-l").textContent=b?"Letter preview":"Card preview";
+    prev.className="cmo-cardprev"+(b?" letter":"")+(b&&st==="Classic"?" serif":"")+(b&&st==="Handwritten"?" script":"")+(b&&st==="Modern"?" modern":"");
+    var g=$("#cmo-cp-greet"); g.style.display=b?"":"none"; g.textContent=state.custom.lgreet==="First name"?"Dear Sarah,":"Hey friend,";
+    var gc=$("#cmo-cp-gift"); gc.style.display=b?"":"none"; gc.textContent="Enclosed: $"+GIFT_CARD_VALUE+" "+(giftBrand()||"gift card")+" gift card";
+    paintCard();
+  }
+  $("#cmo-msg").addEventListener("input",function(){this.dataset.edited="1"});
+  function paintCard(){
+    var m=$("#cmo-msg").value; $("#cmo-cp-msg").textContent=m||"Your message goes here."; $("#cmo-msg-n").textContent=m.length;
+    var s=$("#cmo-sig").value.trim(); $("#cmo-cp-sig").textContent="— "+(s||"Your church family");
+    var q=$("#cmo-qr").value.trim(); $("#cmo-cp-qr").textContent=q?("Scan → "+q.replace(/^https?:\/\//,"")):"Scan to take your next step";
+  }
+
+  /* ---------- details ---------- */
+  (function(){var d=new Date();d.setDate(d.getDate()+LEAD_DAYS);var iso=d.toISOString().slice(0,10);$("#cmo-date").min=iso})();
+  function paintShipQuote(){
+    var w=$("#cmo-zip-wrap"); if(!w)return; var show=!isBasic()&&state.delivery!=="ship"; w.style.display=show?"":"none"; if(!show)return;
+    var b=bulkShip(), el=$("#cmo-ship-quote");
+    if(!b||b.pending){el.textContent="Free delivery in the Triangle. Everywhere else ships UPS Ground.";return}
+    el.textContent=shipLabel()+(b.amount?" ("+money(b.amount/state.qty)+" a box)":"")+(b.freight?". At 200+ boxes we'll also check pallet freight and use it if it's cheaper.":".");
+    $("#cmo-err-zip").classList.remove("show");
+  }
+  $("#cmo-zip").addEventListener("input",function(){this.value=this.value.replace(/\D/g,"").slice(0,5);state.zip=this.value;paintShipQuote();update()});
+  function paintDelivery(){
+    paintShipQuote();
+    var b=isBasic();
+    $("[data-pick='delivery'] [data-v='pack']").style.display=b?"none":"";
+    $("#cmo-dlv-tiles").className="cmo-tiles "+(b?"two":"three");
+    $("#cmo-ship-e").textContent="+$"+SHIP_PER_BOX+" per box shipped";
+  }
+  function paintDetails(){
+    var ship=state.delivery==="ship";
+    $("#cmo-addr-wrap").style.display=ship?"none":"";
+    $("#cmo-trigger-wrap").style.display=ship?"":"none";
+    $("#cmo-trigger-q").textContent=isBasic()?"How will you tell us who to mail a letter to?":"How will you tell us a guest needs a box?";
+    $("#cmo-trig-form-b").textContent=isBasic()?"Send-a-letter form":"Send-a-box form";
+    $("#cmo-trig-form-s").textContent=isBasic()?"We give you a simple link. Enter a guest's name and address.":"We give you a simple link. Enter a guest's name, address and size.";
+    $("#cmo-pay-wrap").style.display=state.tier==="custom"?"none":"";
+  }
+
+  /* ---------- summary ---------- */
+  function deliveryName(){return isBasic()?"Mailed to each guest (USPS)":{pack:"Pack It",stack:"Stack It",ship:"Ship It"}[state.delivery]}
+  function update(){
+    $("#cmo-giftfrom-wrap").style.display=state.custom.giftbrand==="Local"?"":"none";
+    var cur=steps()[state.step], early=(cur==="box"||cur==="custom"||cur==="gift")&&!$(".cmo-step[data-step='done']").classList.contains("on");
+    $("#cmo-summary .total").style.display=early?"none":"";
+    if(early){
+      var early_rows=[["Box",TIER_NAMES[state.tier]]];
+      if(!isBasic()&&state.customBox)early_rows.push(["Custom box","+$"+CUSTOM_BOX_UPCHARGE+"/box · free at 50+"]);
+      if(!isBasic()&&state.backPrint)early_rows.push(["Back print","+$"+BACK_PRINT+"/box"]);
+      if(isBasic()&&state.custom.giftbrand)early_rows.push(["Gift card","$"+GIFT_CARD_VALUE+" "+giftBrand()]);
+      if(isBasic()&&state.custom.lpaper==="Premium")early_rows.push(["Premium paper","+$"+PREMIUM_PAPER+"/letter"]);
+      $("#cmo-sum-rows").innerHTML=early_rows.map(function(r){return "<div class='row'><span>"+r[0]+"</span><span>"+r[1]+"</span></div>"}).join("");
+      $("#cmo-sum-fine").textContent="Pick how many "+units(2)+" next to see your total.";
+      $("#cmo-mbar-l").textContent="Your box"; $("#cmo-mbar-t").textContent=TIER_NAMES[state.tier];
+      return;
+    }
+    $("#cmo-mbar-l").textContent="Estimated total";
+    var c=calc(), rows=[["Box",TIER_NAMES[state.tier]],[isBasic()?"Letters":"Boxes",state.qty>MAX_QTY?"1,000+":String(state.qty||"—")],["Delivery",deliveryName()]];
+    if(!isBasic()&&state.customBox)rows.push(["Custom box",state.qty>=CUSTOM_BOX_FREE_AT?"Free":(c?money(c.cbox):"+$"+CUSTOM_BOX_UPCHARGE+"/box")]);
+    if(c){rows.push(["Per "+unit(),money(c.pb)]); if(c.tee)rows.push(["Tees",money(c.tee)]); if(c.paper)rows.push(["Premium paper",money(c.paper)]); if(c.mug)rows.push(["Premium mug",money(c.mug)]); if(c.back)rows.push(["Back print",money(c.back)]); if(state.delivery==="ship"&&c.ship)rows.push(["Ship It shipping",money(c.ship)]); else if(bulkShip()&&!bulkShip().pending)rows.push(["Shipping",bulkShip().local?"Free":bulkShip().quote?"Quote":money(c.ship)]); if(c.big)rows.push(["2XL+ shirts",money(c.big)])}
+    $("#cmo-sum-rows").innerHTML=rows.map(function(r){return "<div class='row'><span>"+r[0]+"</span><span>"+r[1]+"</span></div>"}).join("");
+    var tot = (!c||state.qty>MAX_QTY||state.qty<minQty()) ? (state.tier==="custom"||state.qty>MAX_QTY?"Quote":"—") : money(c.total);
+    $("#cmo-sum-total").textContent=tot; $("#cmo-mbar-t").textContent=tot;
+    $("#cmo-sum-fine").textContent=isBasic()?"Gift card and USPS postage to each guest included.":state.delivery==="ship"?"Ship It includes shipping to each guest.":(function(){var b=bulkShip();if(!b||b.pending)return "Enter your ZIP on the delivery step for shipping.";if(b.local)return "Free local delivery in the Triangle.";if(b.quote)return "We'll quote shipping to your ZIP.";return "Includes UPS Ground shipping to "+state.zip+"."})();
+  }
+
+  /* ---------- validation ---------- */
+  function val(id){return $(id).value.trim()}
+  function mark(el,bad){el.style.borderColor=bad?"var(--bad)":""}
+  function validate(name){
+    if(name==="custom"){var ok=state.custom.tee&&state.custom.drink&&state.custom.paper;$("#cmo-err-custom").classList.toggle("show",!ok);return !!ok}
+    if(name==="gift"){var c=state.custom, loc=c.giftbrand==="Local"&&!val("#cmo-giftfrom"), ok=!!(c.giftbrand&&c.lstyle&&c.lgreet&&c.lpaper)&&!loc;mark($("#cmo-giftfrom"),loc);$("#cmo-err-gift").textContent=loc?"Tell us which local spot the gift card should be from.":"Pick a gift card, letter style, greeting and paper.";$("#cmo-err-gift").classList.toggle("show",!ok);return ok}
+    if(name==="delivery"&&!isBasic()&&state.delivery!=="ship"){var ok=/^\d{5}$/.test(state.zip||"");mark($("#cmo-zip"),!ok);$("#cmo-err-zip").classList.toggle("show",!ok);return ok}
+    if(name==="qty"){var e=$("#cmo-err-qty");if(state.qty<minQty()){e.textContent=minQty()>MIN_QTY?TIER_NAMES[state.tier]+" starts at "+minQty()+" boxes.":"The minimum is "+MIN_QTY+" "+units(2)+".";e.classList.add("show");return false}return true}
+    if(name==="sizes"){var q=Math.min(state.qty,MAX_QTY);if(sizeTotal()!==q){paintSizes();$("#cmo-count").scrollIntoView({behavior:"smooth",block:"center"});return false}return true}
+    if(name==="brand"){
+      var ok1=!!state.logo; $("#cmo-err-logo").classList.toggle("show",!ok1);
+      var m=val("#cmo-msg"),s=val("#cmo-sig"),q=val("#cmo-qr"); mark($("#cmo-msg"),!m);mark($("#cmo-sig"),!s);mark($("#cmo-qr"),!q);
+      var ok2=m&&s&&q; $("#cmo-err-brand").classList.toggle("show",!ok2); return ok1&&!!ok2;
+    }
+    if(name==="details"){
+      var bad=false, ship=state.delivery==="ship";
+      [["#cmo-church",1],["#cmo-name",1],["#cmo-email",1],["#cmo-phone",1],["#cmo-date",1],["#cmo-addr",!ship]].forEach(function(p){if(!p[1])return;var el=$(p[0]),b=!el.value.trim();if(p[0]==="#cmo-email"&&!b)b=!/^\S+@\S+\.\S+$/.test(el.value.trim());mark(el,b);bad=bad||b});
+      var tw=$("#cmo-trigger-wrap"), pw=$("#cmo-pay-wrap");
+      if(ship&&!state.trigger){bad=true;tw.style.outline="2px solid var(--bad)";tw.style.borderRadius="14px"}else tw.style.outline="";
+      if(state.tier!=="custom"&&!state.pay){bad=true;pw.style.outline="2px solid var(--bad)";pw.style.borderRadius="14px"}else pw.style.outline="";
+      $("#cmo-err-details").classList.toggle("show",bad); return !bad;
+    }
+    return true;
+  }
+
+  /* ---------- review ---------- */
+  function sizeLine(){return SIZES.filter(function(s){return state.sizes[s]}).map(function(s){return s+": "+state.sizes[s]}).join(", ")}
+  function customLine(){var c=state.custom;return c.tee?("Tee: "+c.tee+" | Drinkware: "+c.drink+" | Paper: "+c.paper+(val("#cmo-extras")?" | Extras: "+val("#cmo-extras"):"")):""}
+  function isQuote(){return state.tier==="custom"||state.qty>MAX_QTY}
+  function reviewRows(){
+    var c=calc(), r=[["Box",TIER_NAMES[state.tier]]];
+    if(state.tier==="custom")r.push(["What's inside",customLine()]);
+    else if(isBasic())r.push(["What's inside","Letter from your church in a logo envelope"],["Gift card",giftLine()],["Letter",letterLine()]);
+    else r.push(["Tee",teeKey()?TEES[teeKey()].name+(state.backPrint?" · front + back print":" · front print"):"No tee"]);
+    r.push([isBasic()?"Letters":"Boxes",state.qty>MAX_QTY?state.qty+" (custom quote)":String(state.qty)]);
+    r.push(["Delivery",deliveryName()]);
+    if(!isBasic())r.push(["Packaging",customBoxLabel()]);
+    if(hasTee())r.push([state.delivery==="ship"?"Starting size mix":"Sizes",sizeLine()]);
+    r.push(["Church",val("#cmo-church")],["Need by",val("#cmo-date")]);
+    if(!isQuote()&&c){r.push(["Per "+unit(),money(c.pb)]);if(c.tee)r.push(["Tees","+"+money(c.tee)]);if(c.paper)r.push(["Premium paper","+"+money(c.paper)]);if(c.mug)r.push(["Premium mug upgrade","+"+money(c.mug)]);if(c.back)r.push(["Back print","+"+money(c.back)]);if(state.delivery==="ship"&&c.ship)r.push(["Ship It shipping","+"+money(c.ship)]); else if(bulkShip()&&!bulkShip().pending)r.push(["Shipping",shipLabel()]);if(c.big)r.push(["2XL+ shirts","+"+money(c.big)]);if(c.cbox)r.push(["Custom box","+"+money(c.cbox)]);r.push(["Estimated total",money(c.total)]);r.push(["Payment",state.pay])}
+    else r.push(["Price","We'll send a quote within 1 business day"]);
+    return r;
+  }
+  function paintReview(){
+    var q=isQuote();
+    $("#cmo-review-h").textContent=q?"Ready to request your quote?":"Look good?";
+    $("#cmo-review-lead").textContent=q?"We'll price your box and reply within one business day.":"Nothing gets made until you approve your mockup.";
+    $("#cmo-review").innerHTML=reviewRows().map(function(x,i,a){var esc=String(x[1]).replace(/&/g,"&amp;").replace(/</g,"&lt;");return "<div class='r"+(x[0]==="Estimated total"?" big":"")+"'><span>"+x[0]+"</span><span>"+esc+"</span></div>"}).join("");
+  }
+
+  /* ---------- submit ---------- */
+  function submit(){
+    var btn=$("#cmo-next"); btn.disabled=true; btn.textContent="Sending…"; $("#cmo-next-m").disabled=true;
+    var c=calc(), q=isQuote(), f=$("#cmo-post"); f.innerHTML=""; f.action="https://submit.jotform.com/submit/"+JOTFORM_ID+"/";
+    function add(name,value){var i=document.createElement("input");i.type="hidden";i.name=name;i.value=value==null?"":String(value);f.appendChild(i)}
+    add("formID",JOTFORM_ID); add("simple_spc",JOTFORM_ID+"-"+JOTFORM_ID); add("website",""); add("submitSource","form");
+    var v={
+      requestType:q?"Quote request":"Order", tier:TIER_NAMES[state.tier]+(!isBasic()&&state.customBox?" + fully custom box":"")+(teeKey()&&!isBasic()&&state.tier!=="custom"?" + "+TEES[teeKey()].name+" tee":"")+(state.backPrint&&hasTee()?" + back print":"")+(mugCharge()?" + premium mug":""), qty:state.qty, delivery:deliveryName(),
+      sizes:hasTee()?sizeLine():"No tee", custom:isBasic()?("Welcome Basic | "+giftLine()+" | Letter: "+letterLine()):customLine(), perBox:c&&!q?c.pb:"", shipping:c&&!q?c.ship:"", sizeUp:c&&!q?c.big:"",
+      total:c&&!q?c.total:"Quote", church:val("#cmo-church"), contact:val("#cmo-name"), email:val("#cmo-email"), phone:val("#cmo-phone"),
+      site:val("#cmo-site"), colors:val("#cmo-colors"), msg:val("#cmo-msg"), sig:val("#cmo-sig"), qr:val("#cmo-qr"), neededBy:val("#cmo-date"),
+      address:state.delivery==="ship"?"":val("#cmo-addr"), trigger:state.delivery==="ship"?state.trigger:"", pay:q?"":state.pay, notes:val("#cmo-notes"),
+      summary:reviewRows().map(function(r){return r[0]+": "+r[1]}).join("\n")
+    };
+    Object.keys(v).forEach(function(k){add(FIELDS[k],v[k])});
+    logoIn.name=FIELDS.logo; f.appendChild(logoIn);   // move the real file input into the post form
+    var done=false, sink=$("#cmo-sink");
+    var finish=function(ok){if(done)return;done=true;
+      if(ok){go(steps().length,true)}else{$("#cmo-err-submit").classList.add("show");btn.disabled=false;btn.textContent=q?"Request my quote":"Place my order";$("#cmo-next-m").disabled=false}};
+    sink.onload=function(){finish(true)};
+    setTimeout(function(){finish(true)},15000);
+    try{f.submit()}catch(e){finish(false)}
+  }
+
+  /* ---------- navigation ---------- */
+  function navMeta(){var list=steps();$("#cmo-bar").style.width=Math.round((state.step+1)/(list.length+1)*100)+"%";$("#cmo-stepcount").textContent="Step "+(state.step+1)+" of "+list.length}
+  function go(i,toDone){
+    var list=steps(); state.step=Math.max(0,Math.min(i,list.length-1));
+    var name=toDone?"done":list[state.step];
+    $$(".cmo-step").forEach(function(s){s.classList.toggle("on",s.getAttribute("data-step")===name)});
+    var last=state.step===list.length-1;
+    $("#cmo-back").hidden=state.step===0||toDone;
+    var label=last?(isQuote()?"Request my quote":"Place my order"):"Continue";
+    $("#cmo-next").textContent=label; $("#cmo-next-m").textContent=label;
+    $("#cmo-nav").style.display=toDone?"none":""; $("#cmo-mbar").style.display=toDone?"none":"";
+    $("#cmo-bar").style.width=toDone?"100%":Math.round((state.step+1)/(list.length+1)*100)+"%";
+    $("#cmo-stepcount").textContent=toDone?"Done":"Step "+(state.step+1)+" of "+list.length;
+    if(name==="qty")paintQty(); if(name==="delivery")paintDelivery(); if(name==="sizes")paintSizes(); if(name==="brand")paintBrandMode(); if(name==="details")paintDetails(); if(name==="extras")paintAddons(); if(name==="review")paintReview();
+    if(toDone&&isQuote()){$("#cmo-done-h").textContent="Quote request sent.";$("#cmo-done-p").textContent="We'll price your box and get back to you within one business day."}
+    update(); if(!go.first) root.scrollIntoView({behavior:"smooth",block:"start"}); go.first=false;
+  }
+  go.first=true;
+  /* only show the sticky mobile bar while the order form is on screen */
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(e){$("#cmo-mbar").classList.toggle("off",!e[0].isIntersecting)},{threshold:0}).observe(root);
+  }
+  function next(){var list=steps(),name=list[state.step]; if(!validate(name))return; if(state.step===list.length-1){submit();return} go(state.step+1)}
+  $("#cmo-next").addEventListener("click",next); $("#cmo-next-m").addEventListener("click",next);
+  $("#cmo-back").addEventListener("click",function(){go(state.step-1)});
+
+  $$("input,textarea").forEach(function(el){el.addEventListener("input",function(){
+    el.style.borderColor="";
+    var step=el.closest(".cmo-step"); if(!step)return;
+    var name=step.getAttribute("data-step");
+    if(name==="brand"&&val("#cmo-msg")&&val("#cmo-sig")&&val("#cmo-qr"))$("#cmo-err-brand").classList.remove("show");
+  })});
+
+  paintTiers(); paintTiles(); paintQty(); paintCard(); go(0);
+})();
+</script>
+</div>
+
