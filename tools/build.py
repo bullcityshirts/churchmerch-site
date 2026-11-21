@@ -24,7 +24,7 @@ def tee(text, fill, ink):
 <text x="150" y="168" text-anchor="middle" font-family="Unbounded, sans-serif" font-weight="700" font-size="26" fill="{ink}">{text}</text>
 <text x="150" y="196" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="700" font-size="13" letter-spacing="3" fill="{ink}">EST. SUNDAY</text></svg>"""
 
-NAV = [("order.html", "Design yours"), ("index.html#make", "What we make"), ("boxes.html", "Welcome boxes"), ("work.html", "Our work"), ("faq.html", "FAQ"), ("/promo", "Promo store")]
+NAV = [("order.html", "Design yours"), ("index.html#make", "What we make"), ("boxes.html", "Welcome boxes"), ("work.html", "Our work"), ("faq.html", "FAQ"), ("promo.html", "Promo store")]
 
 def header(n):
     links = "".join(f'<a href="{h}">{t}</a>' for h, t in NAV)
@@ -38,7 +38,7 @@ FOOTER = f"""<footer class="site-footer"><div class="wrap">
 <div class="cols">
 <div><a class="brand" href="index.html">{LOGO.format(n='f')}<span class="brand-name">Church Merch</span></a>
 <p style="margin-top:16px;max-width:26em">Custom shirts, hoodies, swag boxes and promo products for churches and ministries. Printed in Durham, NC. Shipped anywhere in the US.</p></div>
-<div><h4>Explore</h4><a href="index.html#make">What we make</a><a href="work.html">Our work</a><a href="boxes.html">Welcome boxes</a><a href="faq.html">FAQ</a><a href="/promo">Promo store</a><a href="quote.html">Get a quote</a></div>
+<div><h4>Explore</h4><a href="index.html#make">What we make</a><a href="work.html">Our work</a><a href="boxes.html">Welcome boxes</a><a href="faq.html">FAQ</a><a href="promo.html">Promo store</a><a href="quote.html">Get a quote</a></div>
 <div><h4>Say hey</h4><a href="{EMAIL_HREF}">{EMAIL_SHOW}</a><a href="{PHONE_HREF}">{PHONE_SHOW}</a><a href="https://www.instagram.com/churchmrch">Instagram</a><a href="https://www.facebook.com/churchmrch">Facebook</a><span>Durham, North Carolina</span></div>
 </div>
 <div class="legal"><span>&copy; 2026 Church Merch. A Moody Capital LLC company.</span><span>Made for the Church.</span></div>
@@ -98,7 +98,7 @@ def page(slug, title, desc, body, extra_ld=None, n="h"):
 # ---------------- FAQ content (shared by home + FAQ page + schema) ----------------
 FAQ = [
     ("What's the minimum order?",
-     "There isn't one on apparel. Order a handful of shirts or a few hundred. Welcome boxes start at 24, and some promo products have their own minimums, listed right on each product in our <a href='/promo'>promo store</a>."),
+     "There isn't one on apparel. Order a handful of shirts or a few hundred. Welcome boxes start at 24, and some promo products have their own minimums, listed right on each product in our <a href='promo.html'>promo store</a>."),
     ("How long does an order take?",
      "Most orders are ready in 10–14 days after you approve the mockup. Have a hard deadline? Tell us up front and we'll tell you straight whether we can hit it."),
     ("How much do custom church shirts cost?",
@@ -302,6 +302,12 @@ document.getElementById('quote-form').addEventListener('submit', function (e) {{
 page("quote", "Get a Quote: Custom Church Shirts & Merch | Church Merch",
      "Request a quote for custom church shirts, hoodies, hats, welcome boxes and promo products. Church Merch sends a mockup and a real price fast.",
      quote_body)
+
+# ---------------- Promo store (existing promo order app, posts to Jotform) ----------------
+PROMO_APP = (pathlib.Path(__file__).resolve().parent / "promo-embed.html").read_text()
+page("promo", "Church Promo Products: Stickers, Bottles, Banners & More | Church Merch",
+     "Custom promo products for churches: stickers, bottles, notebooks, wristbands, banners, tents and more. Every price includes setup and shipping. From Church Merch in Durham, NC.",
+     f"""<section style="padding:24px 0 40px">{PROMO_APP}</section>""")
 
 # ---------------- Welcome boxes (existing order app, posts to Jotform) ----------------
 BOX_APP = (pathlib.Path(__file__).resolve().parent / "box-embed.html").read_text()
